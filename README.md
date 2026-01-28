@@ -110,12 +110,23 @@ chantal-demo-golden-path/
 - Full product information display with image, description, and pricing
 - Virtual try-on section with state management
 - Avatar creation prompt for first-time users
-- Interactive "Create Your Avatar" button
+- Interactive "Create Your Avatar" button with modal integration
 - Size selection interface (XS, S, M, L, XL)
 - Product features list
 - Responsive two-column layout (stacked on mobile)
 - Add to Cart functionality
 - Back to gallery navigation
+
+#### `AvatarModal` (`components/AvatarModal.tsx`)
+- Modal dialog for avatar creation
+- Two-step image upload (front-facing and side profile photos)
+- Image preview with remove functionality
+- Drag-and-drop or click-to-upload interface
+- Form validation (both images required)
+- Loading state with animation during avatar creation
+- Tips section for best photo practices
+- Cancel and submit actions
+- Closes on backdrop click or close button
 
 ### Data Structure
 

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Product } from '@/lib/types';
+import AvatarModal from './AvatarModal';
 
 interface ProductDetailProps {
   product: Product;
@@ -11,6 +12,7 @@ interface ProductDetailProps {
 
 export default function ProductDetail({ product }: ProductDetailProps) {
   const [hasAvatar, setHasAvatar] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-white">
@@ -107,7 +109,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
 
                   {/* Create Avatar Button */}
                   <button
-                    onClick={() => setHasAvatar(true)}
+                    onClick={() => setIsModalOpen(true)}
                     className="w-full bg-gray-900 text-white font-geo font-light py-3 px-6 text-sm hover:bg-gray-800 transition-colors"
                   >
                     Create Your Avatar
@@ -158,6 +160,13 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           </div>
         </div>
       </div>
+
+      {/* Avatar Creation Modal */}
+      <AvatarModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onAvatarCreated={() => setHasAvatar(true)}
+      />
     </div>
   );
 }
