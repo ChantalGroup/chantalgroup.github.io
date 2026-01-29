@@ -8,155 +8,168 @@ import AvatarModal from './AvatarModal';
 
 interface ProductDetailProps {
   product: Product;
+  initialHasAvatar?: boolean;
 }
 
-export default function ProductDetail({ product }: ProductDetailProps) {
-  const [hasAvatar, setHasAvatar] = useState(false);
+export default function ProductDetail({ product, initialHasAvatar = false }: ProductDetailProps) {
+  const [hasAvatar, setHasAvatar] = useState(initialHasAvatar);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-white">
-      <div className="container mx-auto px-4 py-6 max-w-7xl">
+    <div className="h-screen bg-white flex flex-col overflow-hidden">
+      <div className="container mx-auto px-4 py-4 max-w-7xl h-full flex flex-col">
         {/* Back Button */}
-        <Link 
-          href="/" 
-          className="inline-flex items-center text-gray-700 hover:text-gray-900 mb-6 transition-colors font-geo text-sm"
-        >
-          <svg 
-            className="w-4 h-4 mr-2" 
-            fill="none" 
-            stroke="currentColor" 
-            viewBox="0 0 24 24"
+        <div className="flex-none mb-2">
+          <Link
+            href="/"
+            className="inline-flex items-center text-gray-700 hover:text-gray-900 transition-colors font-geo text-sm"
           >
-            <path 
-              strokeLinecap="round" 
-              strokeLinejoin="round" 
-              strokeWidth={1.5} 
-              d="M15 19l-7-7 7-7" 
-            />
-          </svg>
-          Back to Gallery
-        </Link>
+            <svg
+              className="w-4 h-4 mr-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.5}
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+            Back to Gallery
+          </Link>
+        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12">
-          {/* Left Side - Product Details */}
-          <div className="order-1 lg:order-1">
-            {/* Product Image - Medium size */}
-            <div className="relative w-full max-w-md aspect-[3/4] bg-gray-50">
+        {/* Main Content Area - Flexible height */}
+        <div className="flex-1 min-h-0 flex flex-col lg:flex-row gap-4 lg:gap-8 items-stretch pb-4">
+          {/* Left Side - Product Image & Info */}
+          <div className="w-full lg:w-1/2 flex flex-col min-h-0">
+            {/* Image Container - Flexible */}
+            <div className="flex-1 relative bg-gray-50 rounded-sm overflow-hidden min-h-0">
               <Image
                 src={product.image}
                 alt={product.name}
                 fill
-                className="object-contain"
+                className="object-cover"
                 priority
               />
             </div>
 
-            {/* Product Info Below Image */}
-            <div className="mt-4 max-w-md space-y-4">
+            {/* Product Info - Compact */}
+            {/* Product Info - Compact & Fixed Height to align with actions */}
+            <div className="flex-none pt-4 h-48 flex flex-col justify-between">
               <div>
-                <p className="text-xs font-normal text-gray-600 mb-1 font-geo uppercase tracking-wider">
-                  Brand Name
-                </p>
-                <h1 className="text-xl font-normal text-gray-900 mb-1 font-geo">
-                  {product.name}
-                </h1>
-                <p className="text-sm text-gray-600 font-geo font-light mb-2">
+                <div className="flex justify-between items-start mb-2">
+                  <div>
+                    <p className="text-[10px] font-medium text-gray-500 mb-0.5 font-geo uppercase tracking-widest">
+                      Brand Name
+                    </p>
+                    <h1 className="text-xl font-normal text-gray-900 font-geo tracking-wide">
+                      {product.name}
+                    </h1>
+                  </div>
+                  <p className="text-lg font-light text-gray-900 font-geo">
+                    ${product.price}
+                  </p>
+                </div>
+
+                <p className="text-xs text-gray-600 font-geo font-light leading-relaxed mb-3 line-clamp-2">
                   {product.description}
                 </p>
               </div>
 
-              <div className="border-t border-gray-200 pt-4">
-                <p className="text-lg text-gray-900 font-geo font-light mb-1">
-                  ${product.price}
-                </p>
-                <p className="text-xs text-gray-500 font-geo font-light">
+              <div className="border-t border-gray-100 pt-2">
+                <p className="text-[10px] text-gray-400 font-geo font-light uppercase tracking-wide">
                   Free shipping on orders over $50
                 </p>
               </div>
             </div>
           </div>
 
-          {/* Right Side - Virtual Try-On (Compact) */}
-          <div className="order-2 lg:order-2">
-            <div className="sticky top-8">
-              {!hasAvatar ? (
-                <div className="space-y-4">
-                  {/* No Avatar Card - Compact */}
-                  <div className="bg-gray-50 border border-gray-200 flex flex-col items-center justify-center p-12 text-center min-h-[600px]">
-                    <div className="w-20 h-20 mx-auto mb-4 border-2 border-gray-300 rounded-full flex items-center justify-center">
-                      <svg 
-                        className="w-10 h-10 text-gray-400" 
-                        fill="none" 
-                        stroke="currentColor" 
+          {/* Right Side - Virtual Try-On */}
+          <div className="w-full lg:w-1/2 flex flex-col min-h-0">
+            {!hasAvatar ? (
+              /* No Avatar State */
+              <div className="flex flex-col h-full">
+                {/* Card - Flexible Height to match image */}
+                <div className="flex-1 bg-[#FAFAFA] border border-gray-100 rounded-sm flex flex-col items-center justify-center p-8 text-center relative overflow-hidden group min-h-0">
+                  <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+
+                  <div className="relative z-10">
+                    <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-white border border-gray-100 shadow-sm flex items-center justify-center">
+                      <svg
+                        className="w-5 h-5 text-gray-400"
+                        fill="none"
+                        stroke="currentColor"
                         viewBox="0 0 24 24"
-                        strokeWidth={1.5}
+                        strokeWidth={1}
                       >
-                        <path 
-                          strokeLinecap="round" 
-                          strokeLinejoin="round" 
-                          d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" 
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                         />
                       </svg>
                     </div>
-                    <h3 className="text-xl font-normal text-gray-900 mb-2 font-geo">
-                      No Avatar Yet
+                    <h3 className="text-base font-light text-gray-900 mb-2 font-geo tracking-wide">
+                      Virtual Try-On
                     </h3>
-                    <p className="text-gray-600 font-geo font-light text-sm max-w-sm">
-                      Create your personalized avatar to see how this {product.name.toLowerCase()} looks on you
+                    <p className="text-gray-500 font-geo font-light text-xs max-w-[240px] leading-relaxed mx-auto">
+                      Visualize this look on your own avatar.
                     </p>
                   </div>
+                </div>
 
-                  {/* Create Avatar Button */}
+                {/* Action Area aligned with Product Info */}
+                {/* Action Area aligned with Product Info */}
+                <div className="flex-none space-y-3 pt-4 h-48 flex flex-col">
                   <button
                     onClick={() => setIsModalOpen(true)}
-                    className="w-full bg-gray-900 text-white font-geo font-light py-3 px-6 text-sm hover:bg-gray-800 transition-colors"
+                    className="w-full bg-black text-white font-geo font-light py-3 px-8 text-sm uppercase tracking-widest hover:bg-gray-900 transition-all duration-300 rounded-sm shadow-sm hover:shadow-md"
                   >
                     Create Your Avatar
                   </button>
-
-                  <p className="text-xs text-gray-500 text-center font-geo font-light">
-                    Takes less than a minute
+                  <p className="text-[10px] text-gray-400 text-center font-geo font-light uppercase tracking-wider">
+                    Secure & Private • Local Processing
                   </p>
                 </div>
-              ) : (
-                <div className="space-y-4">
-                  {/* Avatar Try-On Preview - Compact */}
-                  <div className="bg-gray-50 aspect-[3/4] flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="w-20 h-20 mx-auto mb-4 border-2 border-gray-300 rounded-full flex items-center justify-center">
-                        <svg 
-                          className="w-10 h-10 text-gray-400" 
-                          fill="none" 
-                          stroke="currentColor" 
-                          viewBox="0 0 24 24"
-                          strokeWidth={1.5}
-                        >
-                          <path 
-                            strokeLinecap="round" 
-                            strokeLinejoin="round" 
-                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" 
-                          />
-                        </svg>
-                      </div>
-                      <p className="text-gray-900 font-geo font-light text-sm">
-                        Your avatar with {product.name}
-                      </p>
-                      <p className="text-xs text-gray-500 mt-2 font-geo font-light">
-                        Virtual try-on preview
+              </div>
+            ) : (
+              /* Has Avatar State */
+              <div className="flex flex-col h-full">
+                <div className="relative flex-1 bg-gray-100 rounded-sm overflow-hidden shadow-sm min-h-0">
+                  <video
+                    src="/videos/avatar-romain-turn-black-tshirt.mov"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <div className="bg-white/90 backdrop-blur-sm px-4 py-2 rounded-sm border border-white/20">
+                      <p className="text-[10px] text-gray-900 font-geo tracking-wide uppercase">
+                        Virtual Preview
                       </p>
                     </div>
                   </div>
+                </div>
 
+                <div className="flex-none space-y-3 pt-4 h-48 flex flex-col">
                   <button
                     onClick={() => setHasAvatar(false)}
-                    className="w-full bg-gray-100 text-gray-900 font-geo font-light py-3 px-6 text-sm hover:bg-gray-200 transition-colors"
+                    className="w-full bg-white text-gray-900 font-geo font-light py-3 px-8 text-sm uppercase tracking-widest hover:bg-gray-50 transition-all duration-300 rounded-sm border border-gray-200"
                   >
                     Change Avatar
                   </button>
+                  {/* Spacer match */}
+                  <p className="text-[10px] text-transparent text-center font-geo font-light uppercase tracking-wider">
+                    Spacer
+                  </p>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

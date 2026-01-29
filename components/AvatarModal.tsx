@@ -10,7 +10,7 @@ interface AvatarModalProps {
 }
 
 export default function AvatarModal({ isOpen, onClose, onAvatarCreated }: AvatarModalProps) {
-  const [step, setStep] = useState<1 | 2>(1);
+  const [step, setStep] = useState<1 | 2 | 3>(1);
   const [frontImage, setFrontImage] = useState<File | null>(null);
   const [sideImage, setSideImage] = useState<File | null>(null);
   const [frontImagePreview, setFrontImagePreview] = useState<string | null>(null);
@@ -61,13 +61,11 @@ export default function AvatarModal({ isOpen, onClose, onAvatarCreated }: Avatar
     // Simulate avatar creation processing
     setTimeout(() => {
       setIsCreating(false);
-      onAvatarCreated();
-      setStep(1);
-      setFrontImage(null);
-      setSideImage(null);
-      setFrontImagePreview(null);
-      setSideImagePreview(null);
-      onClose();
+      setIsTransitioning(true);
+      setTimeout(() => {
+        setStep(3);
+        setIsTransitioning(false);
+      }, 150);
     }, 2000);
   };
 
@@ -80,6 +78,16 @@ export default function AvatarModal({ isOpen, onClose, onAvatarCreated }: Avatar
       setSideImagePreview(null);
       onClose();
     }
+  };
+
+  const handleFinish = () => {
+    onAvatarCreated();
+    setStep(1);
+    setFrontImage(null);
+    setSideImage(null);
+    setFrontImagePreview(null);
+    setSideImagePreview(null);
+    onClose();
   };
 
   const handleNext = () => {
@@ -124,9 +132,11 @@ export default function AvatarModal({ isOpen, onClose, onAvatarCreated }: Avatar
             <h2 className="text-xl font-normal font-geo text-gray-900">
               Create Your Avatar
             </h2>
-            <span className="text-sm text-gray-500 font-geo font-light">
-              Step {step} of 2
-            </span>
+            {step !== 3 && (
+              <span className="text-sm text-gray-500 font-geo font-light">
+                Step {step} of 2
+              </span>
+            )}
           </div>
           <button
             onClick={handleClose}
@@ -234,7 +244,7 @@ export default function AvatarModal({ isOpen, onClose, onAvatarCreated }: Avatar
                 </p>
               </div>
             </div>
-          ) : (
+          ) : step === 2 ? (
             <div className="space-y-6">
               {/* Step 2: Side Photo */}
               <div>
@@ -312,6 +322,31 @@ export default function AvatarModal({ isOpen, onClose, onAvatarCreated }: Avatar
                 </p>
               </div>
             </div>
+          ) : (
+            <div className="space-y-6">
+              {/* Step 3: Avatar Created */}
+              <div>
+                <h3 className="text-lg font-normal font-geo text-gray-900 mb-2 text-center">
+                  Your Avatar is Ready!
+                </h3>
+                <p className="text-sm text-gray-600 font-geo font-light leading-relaxed text-center">
+                  Here's your personalized 3D avatar. You can now use it to try on products.
+                </p>
+              </div>
+
+              <div className="max-w-[300px] mx-auto">
+                <div className="relative aspect-[9/16] bg-black rounded-lg overflow-hidden shadow-xl">
+                  <video
+                    src="/videos/avatar-romain-turns-0.mov"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+            </div>
           )}
           </div>
         </div>
@@ -330,55 +365,66 @@ export default function AvatarModal({ isOpen, onClose, onAvatarCreated }: Avatar
             )}
           </div>
           <div className="flex gap-4">
-            <button
-              onClick={handleClose}
-              disabled={isCreating}
-              className="px-6 py-2 text-sm font-geo font-light text-gray-700 bg-white border border-gray-300 rounded hover:bg-gray-50 transition-colors disabled:opacity-50"
-            >
-              Cancel
-            </button>
-            {step === 1 ? (
+            {step === 3 ? (
               <button
-                onClick={handleNext}
-                disabled={!frontImage}
-                className="px-6 py-2 text-sm font-geo font-light text-white bg-gray-900 rounded hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                onClick={handleFinish}
+                className="px-6 py-2 text-sm font-geo font-light text-white bg-gray-900 rounded hover:bg-gray-800 transition-colors"
               >
-                Next
+                Done
               </button>
             ) : (
-              <button
-                onClick={handleCreateAvatar}
-                disabled={!sideImage || isCreating}
-                className="px-6 py-2 text-sm font-geo font-light text-white bg-gray-900 rounded hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
-              >
-                {isCreating ? (
-                  <>
-                    <svg 
-                      className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" 
-                      xmlns="http://www.w3.org/2000/svg" 
-                      fill="none" 
-                      viewBox="0 0 24 24"
-                    >
-                      <circle 
-                        className="opacity-25" 
-                        cx="12" 
-                        cy="12" 
-                        r="10" 
-                        stroke="currentColor" 
-                        strokeWidth="4"
-                      />
-                      <path 
-                        className="opacity-75" 
-                        fill="currentColor" 
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      />
-                    </svg>
-                    Creating Avatar...
-                  </>
+              <>
+                <button
+                  onClick={handleClose}
+                  disabled={isCreating}
+                  className="px-6 py-2 text-sm font-geo font-light text-gray-700 bg-white border border-gray-300 rounded hover:bg-gray-50 transition-colors disabled:opacity-50"
+                >
+                  Cancel
+                </button>
+                {step === 1 ? (
+                  <button
+                    onClick={handleNext}
+                    disabled={!frontImage}
+                    className="px-6 py-2 text-sm font-geo font-light text-white bg-gray-900 rounded hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    Next
+                  </button>
                 ) : (
-                  'Create Avatar'
+                  <button
+                    onClick={handleCreateAvatar}
+                    disabled={!sideImage || isCreating}
+                    className="px-6 py-2 text-sm font-geo font-light text-white bg-gray-900 rounded hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+                  >
+                    {isCreating ? (
+                      <>
+                        <svg 
+                          className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" 
+                          xmlns="http://www.w3.org/2000/svg" 
+                          fill="none" 
+                          viewBox="0 0 24 24"
+                        >
+                          <circle 
+                            className="opacity-25" 
+                            cx="12" 
+                            cy="12" 
+                            r="10" 
+                            stroke="currentColor" 
+                            strokeWidth="4"
+                          />
+                          <path 
+                            className="opacity-75" 
+                            fill="currentColor" 
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                          />
+                        </svg>
+                        Creating Avatar...
+                      </>
+                    ) : (
+                      'Create Avatar'
+                    )}
+                  </button>
                 )}
-              </button>
+              </>
             )}
           </div>
         </div>

@@ -160,6 +160,10 @@ interface Product {
 - Renders `ProductDetail` component
 - 404 handling for invalid product IDs
 
+#### Product Detail Page with Avatar (`app/product/[id]/avatar/page.tsx`)
+- Same as Product Detail Page but with avatar pre-loaded
+- Uses `ProductDetail` component with `initialHasAvatar={true}`
+
 ## 💡 Development Guide
 
 ### Adding New Products
