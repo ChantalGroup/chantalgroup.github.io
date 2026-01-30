@@ -14,6 +14,7 @@ interface ProductDetailProps {
 export default function ProductDetail({ product, initialHasAvatar = false }: ProductDetailProps) {
   const [hasAvatar, setHasAvatar] = useState(initialHasAvatar);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isVideoReady, setIsVideoReady] = useState(false);
 
   return (
     <div className="min-h-screen lg:h-screen bg-white flex flex-col lg:overflow-hidden">
@@ -145,7 +146,10 @@ export default function ProductDetail({ product, initialHasAvatar = false }: Pro
                     loop
                     muted
                     playsInline
-                    className="absolute inset-0 w-full h-full object-cover"
+                    onLoadedData={() => setIsVideoReady(true)}
+                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
+                      isVideoReady ? 'opacity-100' : 'opacity-0'
+                    }`}
                   />
                   <div className="absolute bottom-4 left-4 right-4">
                     <div className="bg-white/90 backdrop-blur-sm px-4 py-2 rounded-sm border border-white/20">
@@ -178,7 +182,10 @@ export default function ProductDetail({ product, initialHasAvatar = false }: Pro
       <AvatarModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        onAvatarCreated={() => setHasAvatar(true)}
+        onAvatarCreated={() => {
+          setHasAvatar(true);
+          setIsVideoReady(false);
+        }}
       />
     </div>
   );
