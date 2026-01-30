@@ -130,13 +130,8 @@ export default function AvatarModal({ isOpen, onClose, onAvatarCreated }: Avatar
         <div className="sticky top-0 bg-white border-b border-gray-200 px-8 py-6 flex justify-between items-center rounded-t-lg">
           <div className="flex items-center gap-4">
             <h2 className="text-xl font-normal font-geo text-gray-900">
-              Create Your Avatar
+              Create your profile
             </h2>
-            {step !== 3 && (
-              <span className="text-sm text-gray-500 font-geo font-light">
-                Step {step} of 2
-              </span>
-            )}
           </div>
           <button
             onClick={handleClose}
@@ -171,10 +166,10 @@ export default function AvatarModal({ isOpen, onClose, onAvatarCreated }: Avatar
               {/* Step 1: Front Photo */}
               <div>
                 <h3 className="text-lg font-normal font-geo text-gray-900 mb-2">
-                  Upload Front-Facing Photo
+                  Add a front photo
                 </h3>
                 <p className="text-sm text-gray-600 font-geo font-light leading-relaxed">
-                  Take a clear photo facing the camera directly. Make sure your face and full body are visible.
+                  Stand facing the camera. Make sure your face and full body are visible.
                 </p>
               </div>
 
@@ -327,10 +322,10 @@ export default function AvatarModal({ isOpen, onClose, onAvatarCreated }: Avatar
               {/* Step 3: Avatar Created */}
               <div>
                 <h3 className="text-lg font-normal font-geo text-gray-900 mb-2 text-center">
-                  Your Avatar is Ready!
+                  Your are all set!
                 </h3>
                 <p className="text-sm text-gray-600 font-geo font-light leading-relaxed text-center">
-                  Here's your personalized 3D avatar. You can now use it to try on products.
+                  You are ready to try clothes on
                 </p>
               </div>
 
@@ -417,10 +412,10 @@ export default function AvatarModal({ isOpen, onClose, onAvatarCreated }: Avatar
                             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                           />
                         </svg>
-                        Creating Avatar...
+                        Creating your profile...
                       </>
                     ) : (
-                      'Create Avatar'
+                      'Create profile'
                     )}
                   </button>
                 )}

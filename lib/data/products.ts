@@ -6,7 +6,7 @@ export const products: Product[] = [
     name: "Black T-Shirt", 
     image: "/images/gallery/blackt-zara.png", 
     description: "Classic black t-shirt with a comfortable fit and premium cotton blend.",
-    price: 35 
+    price: 50
   },
   { 
     id: 2, 

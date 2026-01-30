@@ -12,10 +12,10 @@ export default function Home() {
         {/* Hero Section */}
         <div className="text-center mb-16">
           <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4 tracking-wide font-geo">
-            Explore Our Collection
+            New Arrival!
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto font-light">
-            Discover the latest fashion trends and try them on virtually before you buy.
+             See what's new
           </p>
         </div>
 

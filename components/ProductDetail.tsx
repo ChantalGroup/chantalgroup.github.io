@@ -114,10 +114,10 @@ export default function ProductDetail({ product, initialHasAvatar = false }: Pro
                       </svg>
                     </div>
                     <h3 className="text-base font-light text-gray-900 mb-2 font-geo tracking-wide">
-                      Virtual Try-On
+                      Try it on
                     </h3>
                     <p className="text-gray-500 font-geo font-light text-xs max-w-[240px] leading-relaxed mx-auto">
-                      Visualize this look on your own avatar.
+                      Visualize this look on yourself.
                     </p>
                   </div>
                 </div>
@@ -129,7 +129,7 @@ export default function ProductDetail({ product, initialHasAvatar = false }: Pro
                     onClick={() => setIsModalOpen(true)}
                     className="w-full bg-black text-white font-geo font-light py-3 px-8 text-sm uppercase tracking-widest hover:bg-gray-900 transition-all duration-300 rounded-sm shadow-sm hover:shadow-md"
                   >
-                    Create Your Avatar
+                    Create your profile
                   </button>
                   <p className="text-[10px] text-gray-400 text-center font-geo font-light uppercase tracking-wider">
                     Secure & Private • Local Processing

@@ -110,7 +110,7 @@ chantal-demo-golden-path/
 - Full product information display with image, description, and pricing
 - Virtual try-on section with state management
 - Avatar creation prompt for first-time users
-- Interactive "Create Your Avatar" button with modal integration
+- Interactive "Create your profile" button with modal integration
 - Size selection interface (XS, S, M, L, XL)
 - Product features list
 - Responsive two-column layout (stacked on mobile)
