@@ -11,6 +11,8 @@ interface ProductDetailProps {
   initialHasAvatar?: boolean;
 }
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
+
 export default function ProductDetail({ product, initialHasAvatar = false }: ProductDetailProps) {
   const [hasAvatar, setHasAvatar] = useState(initialHasAvatar);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -49,7 +51,7 @@ export default function ProductDetail({ product, initialHasAvatar = false }: Pro
             {/* Image Container - Flexible */}
             <div className="relative bg-gray-50 rounded-sm overflow-hidden min-h-0 h-[50vh] lg:h-auto lg:flex-1">
               <Image
-                src={product.image}
+                src={`${basePath}${product.image}`}
                 alt={product.name}
                 fill
                 className="object-cover"
@@ -141,7 +143,7 @@ export default function ProductDetail({ product, initialHasAvatar = false }: Pro
               <div className="flex flex-col h-full">
                 <div className="relative bg-gray-100 rounded-sm overflow-hidden shadow-sm min-h-0 h-[50vh] lg:h-auto lg:flex-1">
                   <video
-                    src="/videos/avatar-romain-turn-black-tshirt.mov"
+                    src={`${basePath}/videos/avatar-romain-turn-black-tshirt.mov`}
                     autoPlay
                     loop
                     muted

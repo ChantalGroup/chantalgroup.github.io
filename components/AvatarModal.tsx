@@ -9,6 +9,8 @@ interface AvatarModalProps {
   onAvatarCreated: () => void;
 }
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
+
 export default function AvatarModal({ isOpen, onClose, onAvatarCreated }: AvatarModalProps) {
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [frontImage, setFrontImage] = useState<File | null>(null);
@@ -22,11 +24,11 @@ export default function AvatarModal({ isOpen, onClose, onAvatarCreated }: Avatar
 
   // Trigger animation when modal opens
   useEffect(() => {
-    if (isOpen) {
-      setShowModal(true);
-    } else {
-      setShowModal(false);
-    }
+    const frame = requestAnimationFrame(() => {
+      setShowModal(isOpen);
+    });
+
+    return () => cancelAnimationFrame(frame);
   }, [isOpen]);
 
   if (!isOpen) return null;
@@ -338,7 +340,7 @@ export default function AvatarModal({ isOpen, onClose, onAvatarCreated }: Avatar
                     </div>
                   )}
                   <video
-                    src="/videos/avatar-romain-turns-0.mov"
+                    src={`${basePath}/videos/avatar-romain-turns-0.mov`}
                     autoPlay
                     loop
                     muted

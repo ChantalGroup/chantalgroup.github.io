@@ -6,6 +6,8 @@ interface ProductCardProps {
   product: Product;
 }
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
 export default function ProductCard({ product }: ProductCardProps) {
   return (
     <Link
@@ -14,7 +16,7 @@ export default function ProductCard({ product }: ProductCardProps) {
     >
       <div className="relative aspect-[3/4] overflow-hidden bg-gray-100 mb-4">
         <Image
-          src={product.image}
+          src={`${basePath}${product.image}`}
           alt={product.name}
           fill
           className="object-cover"

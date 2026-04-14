@@ -15,7 +15,7 @@ export default function Home() {
             New Arrival!
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto font-light">
-             See what's new
+             See what&apos;s new
           </p>
         </div>
 
